@@ -1,0 +1,202 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# Cursor Rules for Flutter Blog (Jaspr + Tailwind)
+
+## Project Context
+- Building a personal blog about Flutter development
+- Using Jaspr (Flutter for web) with Tailwind CSS
+- Focus: Mobile-first, reader-friendly, minimalist design
+- Target: Technical content with excellent readability
+
+## Design Philosophy
+
+### Mobile-First Principles
+- Always start with mobile layouts (320px min width)
+- Use `sm:`, `md:`, `lg:`, `xl:` breakpoints to scale up
+- Touch targets minimum 44px (h-11 w-11 or larger)
+- Generous spacing for thumb navigation
+- Content-first approach - design around reading experience
+
+### Typography & Readability
+- Body text: minimum text-base (16px) on mobile, text-lg on desktop
+- Line height: leading-relaxed (1.625) or leading-loose (2)
+- Reading width: max-w-2xl (672px) for long-form content
+- Heading hierarchy: text-2xl → text-xl → text-lg for mobile
+- Use font-mono for code blocks with syntax highlighting
+
+### Color & Contrast
+- Primary: Flutter blue (#02569B) - use blue-600/blue-700
+- Ensure 4.5:1 contrast ratio minimum
+- Use gray-50 to gray-900 for text hierarchy
+- Subtle shadows: shadow-sm, shadow-md for depth
+- Avoid pure black/white - use gray-900/gray-50
+
+## Component Guidelines
+
+### Navigation
+- Sticky header: sticky top-0 z-50
+- Mobile: hamburger menu with slide-out drawer
+- Desktop: horizontal navigation with hover states
+- Active states clearly visible
+- Breadcrumbs for deep navigation
+
+### Content Cards
+- Rounded corners: rounded-lg or rounded-xl
+- Subtle shadows: shadow-sm hover:shadow-md
+- Padding: p-4 on mobile, p-6 on desktop
+- Hover states with transform: hover:scale-105 transition-transform
+- Reading time estimates visible
+
+### Code Blocks
+- Background: bg-gray-900 with text-gray-100
+- Padding: p-4 with overflow-x-auto
+- Copy button in top-right corner
+- Syntax highlighting for Dart/Flutter
+- Line numbers for longer snippets
+
+## Responsive Breakpoints Strategy
+
+### Mobile (default, 320px+)
+- Single column layout
+- Full-width elements with px-4 padding
+- Stacked navigation
+- Touch-friendly buttons (py-3 px-6)
+- Larger text for readability
+
+### Tablet (sm: 640px+)
+- Can introduce 2-column layouts
+- Sidebar can appear
+- Navigation can be horizontal
+- Reduced padding ratios
+
+### Desktop (md: 768px+)
+- Multi-column layouts
+- Sidebar navigation
+- Hover effects become prominent
+- Tighter spacing acceptable
+
+### Large Desktop (lg: 1024px+)
+- Max container width: max-w-7xl
+- Can use more complex grid layouts
+- Advanced interactions
+
+## Technical Implementation
+
+### Jaspr-Specific Rules
+- Use Component classes for reusable UI elements
+- Implement proper state management for interactive elements
+- Use DomComponent for custom HTML elements
+- Leverage Jaspr's CSS-in-Dart for dynamic styling
+
+### Performance Optimization
+- Lazy load images: loading="lazy"
+- Optimize images: WebP format when possible
+- Minimize JavaScript bundle size
+- Use CSS transforms for animations (better performance)
+- Implement proper caching strategies
+
+### Accessibility Requirements
+- Semantic HTML structure (header, main, article, aside)
+- Alt text for all images
+- Keyboard navigation support
+- Screen reader friendly
+- Focus indicators visible: focus:ring-2 focus:ring-blue-500
+
+## Content Structure
+
+### Blog Post Layout
+- Hero section with title, date, reading time
+- Table of contents for long posts
+- Clear section breaks
+- Related posts at bottom
+- Social sharing buttons
+
+### Homepage Layout
+- Brief personal introduction
+- Featured posts section
+- Recent posts grid
+- About section teaser
+- Contact/social links
+
+### Code Examples
+- Always provide context before code
+- Use descriptive variable names
+- Include imports and dependencies
+- Add comments for complex logic
+- Provide working examples when possible
+
+## Common Patterns to Use
+
+### Spacing System
+- Use consistent spacing scale: space-y-4, space-y-6, space-y-8
+- Margin bottom for text elements: mb-4, mb-6
+- Section padding: py-8 on mobile, py-12 on desktop
+
+### Button Styles
+- Primary: bg-blue-600 hover:bg-blue-700 text-white
+- Secondary: bg-gray-200 hover:bg-gray-300 text-gray-900
+- Consistent padding: px-6 py-3
+- Rounded corners: rounded-lg
+
+### Form Elements
+- Input fields: p-3 border border-gray-300 rounded-lg
+- Focus states: focus:ring-2 focus:ring-blue-500 focus:border-blue-500
+- Error states: border-red-500 text-red-600
+- Labels: font-medium text-gray-700
+
+## Avoid These Patterns
+
+### Don't Use
+- Fixed pixel values (except for specific cases)
+- Absolute positioning for responsive elements
+- Tiny touch targets on mobile
+- Pure black/white colors
+- Overly complex animations on mobile
+- Horizontal scrolling (except for code blocks)
+
+### Performance Don'ts
+- Don't load unnecessary JavaScript
+- Don't use large images without optimization
+- Don't block rendering with CSS
+- Don't use too many web fonts
+
+## Testing Checklist
+
+### Before Each Commit
+- [ ] Test on mobile (320px, 375px, 414px widths)
+- [ ] Test on tablet (768px, 1024px)
+- [ ] Test on desktop (1440px+)
+- [ ] Check keyboard navigation
+- [ ] Verify color contrast
+- [ ] Test loading performance
+- [ ] Check code block overflow
+- [ ] Validate HTML structure
+
+## File Organization
+
+### Suggested Structure
+```
+lib/
+├── components/
+│   ├── layout/
+│   ├── ui/
+│   └── blog/
+├── pages/
+├── styles/
+└── utils/
+```
+
+### Component Naming
+- Use PascalCase for component classes
+- Descriptive names: BlogPostCard, NavigationHeader
+- Separate concerns: Layout vs UI vs Content components
+
+## Remember
+- Mobile users are your primary audience
+- Reading experience trumps visual flourishes
+- Performance matters more than perfection
+- Accessibility is non-negotiable
+- Test early and often on real devices
