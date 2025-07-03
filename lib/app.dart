@@ -1,45 +1,32 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
-
-import 'components/header.dart';
-import 'pages/about.dart';
-import 'pages/home.dart';
+import 'package:f_blog/pages/blog.dart';
+import 'package:f_blog/pages/blog_post.dart';
 
 class App extends StatelessComponent {
   const App({super.key});
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    yield div(classes: 'main', [
-      const Header(),
+    yield div(classes: 'min-h-screen bg-gray-50', [
       Router(routes: [
         Route(
             path: '/',
-            title: 'Home',
-            builder: (context, state) => const Home()),
+            title: 'Blog | Michal Nowak',
+            builder: (context, state) => const Blog()),
         Route(
-            path: '/about',
-            title: 'About',
-            builder: (context, state) => const About()),
+            path: '/blog/:slug',
+            title: 'Blog Post | Michal Nowak',
+            builder: (context, state) => BlogPost(slug: state.params['slug']!)),
       ]),
     ]);
   }
 
   @css
   static List<StyleRule> get styles => [
-        css('.main', [
+        css('*', [
           css('&').styles(
-            display: Display.flex,
-            height: 100.vh,
-            flexDirection: FlexDirection.column,
-            flexWrap: FlexWrap.wrap,
-          ),
-          css('section').styles(
-            display: Display.flex,
-            flexDirection: FlexDirection.column,
-            justifyContent: JustifyContent.center,
-            alignItems: AlignItems.center,
-            flex: Flex(grow: 1),
+            boxSizing: BoxSizing.borderBox,
           ),
         ]),
       ];
