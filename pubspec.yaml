@@ -2,11 +2,16 @@ name: f_blog
 description: A new Jaspr project
 version: 0.0.1
 
+publish_to: none
+
 environment:
-  sdk: '>=3.6.0 <4.0.0'
+  sdk: ">=3.6.0 <4.0.0"
 
 dependencies:
   jaspr: ^0.19.1
+  jaspr_markdown:
+    git:
+      url: https://github.com/mhnowak/jaspr_markdown
   jaspr_router: ^0.7.0
 
 dev_dependencies:
@@ -19,4 +24,3 @@ dev_dependencies:
 
 jaspr:
   mode: static
-

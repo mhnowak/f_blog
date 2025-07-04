@@ -1,7 +1,7 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_router/jaspr_router.dart';
-import 'package:f_blog/pages/blog.dart';
-import 'package:f_blog/pages/blog_post.dart';
+import 'package:f_blog/pages/blog_page.dart';
+import 'package:f_blog/pages/blog_post_page.dart';
 
 class App extends StatelessComponent {
   const App({super.key});
@@ -13,11 +13,11 @@ class App extends StatelessComponent {
         Route(
             path: '/',
             title: 'Blog | Michal Nowak',
-            builder: (context, state) => const Blog()),
+            builder: (context, state) => const BlogPage()),
         Route(
             path: '/blog/:slug',
             title: 'Blog Post | Michal Nowak',
-            builder: (context, state) => BlogPost(slug: state.params['slug']!)),
+            builder: (context, state) => BlogPostPage(slug: state.params['slug']!)),
       ]),
     ]);
   }
