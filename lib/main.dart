@@ -9,6 +9,7 @@ void main() {
   );
 
   runApp(Document(
+    base: 'f_blog',
     title: 'Michal Nowak Blog | Flutter',
     head: [
       link(href: 'styles.css', rel: 'stylesheet'),

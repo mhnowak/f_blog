@@ -54,7 +54,7 @@ class BlogPostCard extends StatelessComponent {
             'text-lg md:text-xl font-bold text-gray-900 mb-3 leading-tight',
         [
           Link(
-            to: '/blog/$slug',
+            to: 'blog/$slug',
             classes:
                 'hover:text-blue-600 focus:text-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors',
             child: text(title),

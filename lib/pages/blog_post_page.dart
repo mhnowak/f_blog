@@ -45,7 +45,7 @@ class BlogPostPage extends StatelessComponent {
               classes: 'text-gray-600 mb-8',
               [text('The blog post you\'re looking for doesn\'t exist.')]),
           Link(
-            to: '/blog',
+            to: '',
             classes:
                 'inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors',
             child: text('← Back to Blog'),
@@ -58,7 +58,7 @@ class BlogPostPage extends StatelessComponent {
   Component _buildBackButton() {
     return nav(classes: 'mb-6 md:mb-8', [
       Link(
-        to: '/',
+        to: '',
         classes:
             'inline-flex items-center px-4 py-3 text-blue-600 hover:text-blue-800 focus:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors rounded-lg',
         child: text('← Back to Blog'),
