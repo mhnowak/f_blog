@@ -1,46 +1,78 @@
+import 'dart:io';
+import 'dart:convert';
 import 'package:f_blog/models/blog_post.dart';
 
+final blogService = BlogService();
+
 class BlogService {
-  static final List<BlogPost> _posts = [
-    BlogPost(
-      id: '1',
-      title: 'My First Blog Post',
-      excerpt:
-          'This is an example of how to structure your existing blog posts with canonical links for SEO.',
-      content: '''
-# My First Blog Post
+  BlogService._() : _posts = _loadPosts();
 
-This is an example of how to structure your existing blog posts with canonical links for SEO.
+  factory BlogService() => _instance;
 
-## Why Canonical Links Matter
+  static final BlogService _instance = BlogService._();
 
-When you republish content from another platform, canonical links tell search engines which version is the original and should be indexed.
+  final List<BlogPost> _posts;
 
-## How to Use This System
+  static List<BlogPost> _loadPosts() {
+    try {
+      final articlesDir = Directory('content/articles');
 
-1. Add your existing posts to the `_posts` list
-2. Include the original URL as `canonicalUrl`
-3. The system will automatically add the canonical link to the HTML head
-4. Your SEO value will be preserved!
+      if (!articlesDir.existsSync()) {
+        print('Articles directory does not exist: ${articlesDir.path}');
 
-This is just placeholder content - replace with your actual blog posts.
-''',
-      slug: 'my-first-blog-post',
-      publishedAt: DateTime(2024, 1, 15),
-      tags: ['jaspr', 'flutter', 'web', 'seo'],
-      canonicalUrl:
-          'https://medium.com/@yourname/my-first-blog-post-123456', // Replace with your actual URL
-      readTimeMinutes: 5,
-    ),
-    // Add more of your existing posts here...
-  ];
+        return [];
+      }
 
-  static List<BlogPost> getAllPosts() {
+      return articlesDir
+          .listSync()
+          .whereType<Directory>()
+          .map(_dirToPost)
+          .whereType<BlogPost>()
+          .toList();
+    } catch (e) {
+      print('Error loading articles: $e');
+
+      return [];
+    }
+  }
+
+  static BlogPost? _dirToPost(Directory articleDir) {
+    try {
+      final metadataFile = File('${articleDir.path}/metadata.json');
+      final contentFile = File('${articleDir.path}/content.md');
+
+      if (!metadataFile.existsSync()) {
+        print('Skipping ${articleDir.path}: metadata.json not found');
+
+        return null;
+      }
+
+      if (!contentFile.existsSync()) {
+        print('Skipping ${articleDir.path}: content.md not found');
+
+        return null;
+      }
+
+      final metadataJson = jsonDecode(metadataFile.readAsStringSync());
+      final content = contentFile.readAsStringSync();
+
+      return BlogPost.from(
+        metadata: metadataJson,
+        content: content,
+      );
+    } catch (e) {
+      print('Error loading articles: $e');
+
+      return null;
+    }
+  }
+
+  List<BlogPost> getAllPosts() {
     return List.from(_posts)
       ..sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
   }
 
-  static BlogPost? getPostBySlug(String slug) {
+  BlogPost? getPostBySlug(String slug) {
     try {
       return _posts.firstWhere((post) => post.slug == slug);
     } catch (e) {
@@ -48,12 +80,12 @@ This is just placeholder content - replace with your actual blog posts.
     }
   }
 
-  static List<BlogPost> getPostsByTag(String tag) {
+  List<BlogPost> getPostsByTag(String tag) {
     return _posts.where((post) => post.tags.contains(tag)).toList()
       ..sort((a, b) => b.publishedAt.compareTo(a.publishedAt));
   }
 
-  static List<String> getAllTags() {
+  List<String> getAllTags() {
     final Set<String> tags = {};
     for (final post in _posts) {
       tags.addAll(post.tags);

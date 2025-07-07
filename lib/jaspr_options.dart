@@ -26,21 +26,9 @@ import 'package:f_blog/app.dart' as prefix2;
 /// }
 /// ```
 JasprOptions get defaultJasprOptions => JasprOptions(
-  clients: {
-    prefix0.BlogPage: ClientTarget<prefix0.BlogPage>('pages/blog_page'),
-
-    prefix1.BlogPostPage: ClientTarget<prefix1.BlogPostPage>(
-      'pages/blog_post_page',
-      params: _prefix1BlogPostPage,
-    ),
-  },
   styles: () => [
     ...prefix0.BlogPage.styles,
     ...prefix1.BlogPostPage.styles,
     ...prefix2.App.styles,
   ],
 );
-
-Map<String, dynamic> _prefix1BlogPostPage(prefix1.BlogPostPage c) => {
-  'slug': c.slug,
-};

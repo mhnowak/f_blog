@@ -23,33 +23,21 @@ class BlogPost {
     required this.readTimeMinutes,
   });
 
-  factory BlogPost.fromJson(Map<String, dynamic> json) {
+  factory BlogPost.from({
+    required Map<String, dynamic> metadata,
+    required String content,
+  }) {
     return BlogPost(
-      id: json['id'],
-      title: json['title'],
-      excerpt: json['excerpt'],
-      content: json['content'],
-      slug: json['slug'],
-      publishedAt: DateTime.parse(json['publishedAt']),
-      tags: List<String>.from(json['tags'] ?? []),
-      canonicalUrl: json['canonicalUrl'],
-      coverImage: json['coverImage'],
-      readTimeMinutes: json['readTimeMinutes'] ?? 5,
+      id: metadata['id'],
+      title: metadata['title'],
+      excerpt: metadata['excerpt'],
+      slug: metadata['slug'],
+      publishedAt: DateTime.parse(metadata['publishedAt']),
+      tags: List<String>.from(metadata['tags'] ?? []),
+      canonicalUrl: metadata['canonicalUrl'],
+      coverImage: metadata['coverImage'],
+      readTimeMinutes: metadata['readTimeMinutes'] ?? 5,
+      content: content,
     );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'excerpt': excerpt,
-      'content': content,
-      'slug': slug,
-      'publishedAt': publishedAt.toIso8601String(),
-      'tags': tags,
-      'canonicalUrl': canonicalUrl,
-      'coverImage': coverImage,
-      'readTimeMinutes': readTimeMinutes,
-    };
   }
 }

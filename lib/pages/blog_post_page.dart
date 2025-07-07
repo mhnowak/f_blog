@@ -5,7 +5,6 @@ import 'package:jaspr_router/jaspr_router.dart';
 import 'package:jaspr_markdown/jaspr_markdown.dart';
 import 'package:f_blog/services/blog_service.dart';
 
-@client
 class BlogPostPage extends StatelessComponent {
   final String slug;
 
@@ -13,7 +12,7 @@ class BlogPostPage extends StatelessComponent {
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    final post = BlogService.getPostBySlug(slug);
+    final post = blogService.getPostBySlug(slug);
 
     if (post case final post?) {
       yield _buildPage(post);
@@ -196,16 +195,22 @@ class BlogPostPage extends StatelessComponent {
             padding: Padding.all(1.5.em),
             radius: BorderRadius.circular(8.px),
             overflow: Overflow.auto,
-            color: const Color('#f9fafb'), // bg-gray-800 for dark code blocks
-            backgroundColor:
-                const Color('#1f2937'), // text-gray-50 for code text
+            color: const Color('#f9fafb'),
+            backgroundColor: const Color('#1f2937'),
           ),
           css('code').styles(
             padding: Padding.symmetric(horizontal: 4.px, vertical: 2.px),
             radius: BorderRadius.circular(4.px),
             fontSize: 14.px,
-            backgroundColor:
-                const Color('#f3f4f6'), // bg-gray-100 for inline code
+            backgroundColor: const Color('#f3f4f6'),
+          ),
+          css('blockquote').styles(
+            padding: Padding.symmetric(horizontal: 1.5.em),
+            border: Border.only(
+                left: BorderSide(color: const Color('#6b7280'), width: 4.px)),
+            color: const Color('#6b7280'),
+            fontStyle: FontStyle.italic,
+            backgroundColor: const Color('#f9fafb'),
           ),
         ]),
       ];

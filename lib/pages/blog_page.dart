@@ -4,14 +4,13 @@ import 'package:jaspr/jaspr.dart';
 import 'package:f_blog/services/blog_service.dart';
 import 'package:f_blog/components/blog_post_card.dart';
 
-@client
 class BlogPage extends StatelessComponent {
   const BlogPage({super.key});
 
   @override
   Iterable<Component> build(BuildContext context) sync* {
-    final posts = BlogService.getAllPosts();
-    final tags = BlogService.getAllTags();
+    final posts = blogService.getAllPosts();
+    final tags = blogService.getAllTags();
 
     yield div(classes: 'min-h-screen bg-gray-50', [
       div(classes: 'max-w-7xl mx-auto px-4 py-8 md:py-12', [
