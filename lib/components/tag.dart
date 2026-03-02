@@ -1,4 +1,5 @@
 import 'package:jaspr/jaspr.dart';
+import 'package:jaspr/dom.dart';
 
 class Tag extends StatelessComponent {
   final String tag;
@@ -7,10 +8,10 @@ class Tag extends StatelessComponent {
   const Tag({required this.tag, this.hasHover = false, super.key});
 
   @override
-  Iterable<Component> build(BuildContext context) sync* {
-    yield span(
+  Component build(BuildContext context) {
+    return span(
       classes: classes,
-      [text('#$tag')],
+      [Component.text('#$tag')],
     );
   }
 

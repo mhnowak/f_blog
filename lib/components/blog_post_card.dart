@@ -1,4 +1,6 @@
 import 'package:jaspr/jaspr.dart';
+import 'package:jaspr/dom.dart';
+
 import 'package:jaspr_router/jaspr_router.dart';
 import 'package:f_blog/models/blog_post.dart';
 
@@ -8,8 +10,8 @@ class BlogPostCard extends StatelessComponent {
   const BlogPostCard({required this.post, super.key});
 
   @override
-  Iterable<Component> build(BuildContext context) sync* {
-    yield article(
+  Component build(BuildContext context) {
+    return article(
       classes:
           'bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden',
       [
@@ -40,7 +42,7 @@ class BlogPostCard extends StatelessComponent {
           span(
             classes:
                 'px-2 py-1 bg-gray-100 text-gray-700 rounded text-xs font-medium',
-            [text(tag)],
+            [Component.text(tag)],
           ),
       ],
     );
@@ -54,10 +56,10 @@ class BlogPostCard extends StatelessComponent {
             'text-lg md:text-xl font-bold text-gray-900 mb-3 leading-tight',
         [
           Link(
-            to: 'blog/$slug',
+            to: slug,
             classes:
                 'hover:text-blue-600 focus:text-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors',
-            child: text(title),
+            child: Component.text(title),
           ),
         ]);
   }
@@ -65,7 +67,7 @@ class BlogPostCard extends StatelessComponent {
   Component _buildExcerpt(String excerpt) {
     return p(
       classes: 'text-gray-600 mb-4 leading-relaxed text-sm md:text-base',
-      [text(excerpt)],
+      [Component.text(excerpt)],
     );
   }
 
@@ -78,9 +80,9 @@ class BlogPostCard extends StatelessComponent {
       [
         span(
           classes: 'flex items-center',
-          [text(_formatDate(publishedAt))],
+          [Component.text(_formatDate(publishedAt))],
         ),
-        span([text('$readTime min read')]),
+        span([Component.text('$readTime min read')]),
       ],
     );
   }

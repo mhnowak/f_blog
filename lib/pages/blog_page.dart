@@ -1,6 +1,8 @@
 import 'package:f_blog/components/tag.dart';
 import 'package:f_blog/models/blog_post.dart';
 import 'package:jaspr/jaspr.dart';
+import 'package:jaspr/dom.dart';
+
 import 'package:f_blog/services/blog_service.dart';
 import 'package:f_blog/components/blog_post_card.dart';
 
@@ -8,11 +10,11 @@ class BlogPage extends StatelessComponent {
   const BlogPage({super.key});
 
   @override
-  Iterable<Component> build(BuildContext context) sync* {
+  Component build(BuildContext context) {
     final posts = blogService.getAllPosts();
     final tags = blogService.getAllTags();
 
-    yield div(classes: 'min-h-screen bg-gray-50', [
+    return div(classes: 'min-h-screen bg-gray-50', [
       div(classes: 'max-w-7xl mx-auto px-4 py-8 md:py-12', [
         _buildHeader(),
         if (tags.isNotEmpty) _buildTags(tags),
@@ -37,12 +39,12 @@ class BlogPage extends StatelessComponent {
       [
         h1(
             classes: 'text-2xl md:text-4xl font-bold text-gray-900 mb-4',
-            [text('Blog')]),
+            [Component.text('Blog')]),
         p(
           classes:
               'text-base md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed',
           [
-            text(
+            Component.text(
                 'Thoughts, ideas, and insights about Flutter development, technology, and life.')
           ],
         ),
@@ -56,7 +58,7 @@ class BlogPage extends StatelessComponent {
       [
         h2(
           classes: 'text-base md:text-lg font-semibold text-gray-900 mb-4',
-          [text('Topics')],
+          [Component.text('Topics')],
         ),
         div(
           classes: 'flex flex-wrap gap-2',

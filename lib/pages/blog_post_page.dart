@@ -1,8 +1,10 @@
 import 'package:f_blog/components/tag.dart';
 import 'package:f_blog/models/blog_post.dart';
 import 'package:jaspr/jaspr.dart';
+import 'package:jaspr/dom.dart';
+
 import 'package:jaspr_router/jaspr_router.dart';
-import 'package:jaspr_markdown/jaspr_markdown.dart';
+import 'package:jaspr_content/components/markdown.dart';
 import 'package:f_blog/services/blog_service.dart';
 
 class BlogPostPage extends StatelessComponent {
@@ -11,13 +13,13 @@ class BlogPostPage extends StatelessComponent {
   const BlogPostPage({required this.slug, super.key});
 
   @override
-  Iterable<Component> build(BuildContext context) sync* {
+  Component build(BuildContext context) {
     final post = blogService.getPostBySlug(slug);
 
     if (post case final post?) {
-      yield _buildPage(post);
+      return _buildPage(post);
     } else {
-      yield _buildPageNotFound();
+      return _buildPageNotFound();
     }
   }
 
@@ -40,15 +42,15 @@ class BlogPostPage extends StatelessComponent {
         div(classes: 'text-center', [
           h1(
               classes: 'text-4xl font-bold text-gray-900 mb-4',
-              [text('Post Not Found')]),
-          p(
-              classes: 'text-gray-600 mb-8',
-              [text('The blog post you\'re looking for doesn\'t exist.')]),
+              [Component.text('Post Not Found')]),
+          p(classes: 'text-gray-600 mb-8', [
+            Component.text('The blog post you\'re looking for doesn\'t exist.')
+          ]),
           Link(
             to: '',
             classes:
                 'inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors',
-            child: text('← Back to Blog'),
+            child: Component.text('← Back to Blog'),
           ),
         ]),
       ],
@@ -58,10 +60,10 @@ class BlogPostPage extends StatelessComponent {
   Component _buildBackButton() {
     return nav(classes: 'mb-6 md:mb-8', [
       Link(
-        to: '',
+        to: '/',
         classes:
             'inline-flex items-center px-4 py-3 text-blue-600 hover:text-blue-800 focus:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors rounded-lg',
-        child: text('← Back to Blog'),
+        child: Component.text('← Back to Blog'),
       ),
     ]);
   }
@@ -90,7 +92,7 @@ class BlogPostPage extends StatelessComponent {
     return h1(
       classes:
           'text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight',
-      [text(title)],
+      [Component.text(title)],
     );
   }
 
@@ -101,8 +103,8 @@ class BlogPostPage extends StatelessComponent {
       classes:
           'flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 md:gap-6 text-gray-600 text-sm md:text-base',
       [
-        span([text(_formatDate(publishedAt))]),
-        span([text('$readTime min read')]),
+        span([Component.text(_formatDate(publishedAt))]),
+        span([Component.text('$readTime min read')]),
       ],
     );
   }
@@ -115,13 +117,13 @@ class BlogPostPage extends StatelessComponent {
         p(
           classes: 'text-sm text-yellow-800',
           [
-            text('Originally published at '),
+            Component.text('Originally published at '),
             a(
               href: canonicalUrl,
               target: Target.blank,
               classes:
                   'font-medium underline hover:no-underline focus:ring-2 focus:ring-yellow-500 focus:outline-none',
-              [text(_getDomain(canonicalUrl))],
+              [Component.text(_getDomain(canonicalUrl))],
             )
           ],
         ),
@@ -147,7 +149,7 @@ class BlogPostPage extends StatelessComponent {
           classes: 'text-base md:text-lg leading-relaxed text-gray-700',
           [
             Markdown(
-              markdown: content,
+              content: content,
             ),
           ],
         ),
@@ -211,6 +213,14 @@ class BlogPostPage extends StatelessComponent {
             color: const Color('#6b7280'),
             fontStyle: FontStyle.italic,
             backgroundColor: const Color('#f9fafb'),
+          ),
+        ]),
+        css('.gist', [
+          css('tbody tr').styles(
+            border: Border.only(bottom: BorderSide.none()),
+          ),
+          css('td').styles(
+            border: Border.none,
           ),
         ]),
       ];

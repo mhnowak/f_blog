@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:f_blog/constants/env.dart';
 import 'package:f_blog/models/blog_post.dart';
 
 final blogService = BlogService();
@@ -26,6 +27,7 @@ class BlogService {
       return articlesDir
           .listSync()
           .whereType<Directory>()
+          .where(_isNotDebug)
           .map(_dirToPost)
           .whereType<BlogPost>()
           .toList();
@@ -65,6 +67,14 @@ class BlogService {
 
       return null;
     }
+  }
+
+  static bool _isNotDebug(Directory articleDir) {
+    if (Env.isDebug) {
+      return true;
+    }
+
+    return !articleDir.path.toLowerCase().contains('debug');
   }
 
   List<BlogPost> getAllPosts() {
