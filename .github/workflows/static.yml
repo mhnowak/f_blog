@@ -52,7 +52,7 @@ jobs:
       - name: "Build Jaspr"
         run: |
           flutter pub global activate jaspr_cli
-          jaspr build -t jit-snapshot --verbose
+          jaspr build -t jit-snapshot --verbose --dart-define-from-file=.env.prod
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
