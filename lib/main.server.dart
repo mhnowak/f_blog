@@ -1,3 +1,4 @@
+import 'package:f_blog/constants/env.dart';
 import 'package:jaspr/server.dart';
 import 'package:jaspr/dom.dart';
 import 'package:f_blog/app.dart';
@@ -10,6 +11,7 @@ void main() {
   );
 
   runApp(Document(
+    base: Env.base,
     title: 'Michal Nowak Blog | Flutter',
     head: [
       link(href: 'styles.css', rel: 'stylesheet'),
