@@ -3,7 +3,7 @@ description:
 globs: 
 alwaysApply: true
 ---
-# Cursor Rules for Flutter Blog (Jaspr + Tailwind)
+# Agents Rules for Flutter Blog (Jaspr + Tailwind)
 
 ## Project Context
 - Building a personal blog about Flutter development
@@ -200,3 +200,32 @@ lib/
 - Performance matters more than perfection
 - Accessibility is non-negotiable
 - Test early and often on real devices
+
+# Agents rules for code style in dart:
+
+## Code style
+
+- yield other components instead of using static methods
+- use package imports
+- avoid huge build methods
+- keep the sketch of the UI/layout in the build method
+- extract details of the UI components into private methods for readability
+- extract common components into standalone components in lib/components folder
+- order styles, styles should be ordered correctly 
+
+## Good practices
+
+### Include comma at the end of a component to improve readability
+
+```dart
+// Bad
+span(
+    classes: 'some class',
+    [text('Some text')])
+
+// Good
+span(
+    classes: 'some class',
+    [text('Some text')],
+)
+```
