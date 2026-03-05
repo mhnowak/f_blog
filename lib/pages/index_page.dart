@@ -121,7 +121,12 @@ class IndexPage extends StatelessComponent {
 
   Component _buildPosts(List<BlogPost> posts) {
     return div(classes: 'index-posts-grid', [
-      for (final post in posts) BlogPostCard(post: post),
+      for (var i = 0; i < posts.length; i++)
+        div(
+          classes: 'post-card-animate',
+          styles: Styles(raw: {'animation-delay': '${i * 100}ms'}),
+          [BlogPostCard(post: posts[i])],
+        ),
     ]);
   }
 
@@ -173,6 +178,22 @@ class IndexPage extends StatelessComponent {
           raw: {
             'grid-template-columns': 'repeat(1, minmax(0, 1fr))'
           }, // default 1 col
+        ),
+        css.keyframes('fadeUp', {
+          '0%': Styles(raw: {
+            'opacity': '0',
+            'transform': 'translateY(20px)',
+          }),
+          '100%': Styles(raw: {
+            'opacity': '1',
+            'transform': 'translateY(0)',
+          }),
+        }),
+        css('.post-card-animate').styles(
+          raw: {
+            'opacity': '0',
+            'animation': 'fadeUp 500ms ease-out forwards',
+          },
         ),
         // Media queries for breakpoints
         css.media(MediaQuery.screen(minWidth: 768.px), [

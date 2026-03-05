@@ -6,6 +6,5 @@ layout: blog
 date: 2025-07-07
 tags: [test]
 readTime: "5 min"
-debug: true
 ---
 This is a debug post.
