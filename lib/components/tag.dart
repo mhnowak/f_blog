@@ -1,5 +1,6 @@
 import 'package:jaspr/jaspr.dart';
 import 'package:jaspr/dom.dart';
+import 'package:f_blog/constants/theme.dart';
 
 class Tag extends StatelessComponent {
   final String tag;
@@ -10,19 +11,27 @@ class Tag extends StatelessComponent {
   @override
   Component build(BuildContext context) {
     return span(
-      classes: classes,
+      classes: 'tag-item ${hasHover ? 'tag-hover' : ''}',
       [Component.text('#$tag')],
     );
   }
 
-  String get classes {
-    const core =
-        'px-3 py-2 bg-blue-50 text-blue-700 rounded-full text-sm font-medium';
-
-    if (hasHover) {
-      return '$core hover:bg-blue-100 transition-colors';
-    }
-
-    return core;
-  }
+  @css
+  static List<StyleRule> get styles => [
+        css('.tag-item').styles(
+          padding: Padding.symmetric(
+              horizontal: 0.75.rem, vertical: 0.5.rem), // px-3 py-2
+          backgroundColor: AppColors.tagBackground, // bg-blue-50
+          color: AppColors.tagText, // text-blue-700
+          radius: BorderRadius.circular(9999.px), // rounded-full
+          fontSize: 0.875.rem, // text-sm
+          fontWeight: FontWeight.w500, // font-medium
+        ),
+        css('.tag-hover').styles(
+          raw: {'transition': 'background-color 150ms'}, // transition-colors
+        ),
+        css('.tag-hover:hover').styles(
+          backgroundColor: AppColors.tagBackgroundHover, // hover:bg-blue-100
+        ),
+      ];
 }

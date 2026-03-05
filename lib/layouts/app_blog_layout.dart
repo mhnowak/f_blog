@@ -3,6 +3,7 @@ import 'package:jaspr/jaspr.dart';
 import 'package:jaspr_content/jaspr_content.dart';
 import 'package:jaspr_router/jaspr_router.dart';
 import 'package:f_blog/components/tag.dart';
+import 'package:f_blog/constants/theme.dart';
 
 class AppBlogLayout extends PageLayoutBase {
   const AppBlogLayout();
@@ -12,22 +13,22 @@ class AppBlogLayout extends PageLayoutBase {
 
   @override
   Component buildBody(Page page, Component child) {
-    return _AppBlogPageContent(page: page, child: child);
+    return AppBlogPageContent(page: page, child: child);
   }
 }
 
-class _AppBlogPageContent extends StatelessComponent {
+class AppBlogPageContent extends StatelessComponent {
   final Page page;
   final Component child;
 
-  const _AppBlogPageContent({required this.page, required this.child});
+  const AppBlogPageContent({required this.page, required this.child});
 
   @override
   Component build(BuildContext context) {
     return div(
-      classes: 'min-h-screen bg-white',
+      classes: 'blog-layout',
       [
-        div(classes: 'max-w-7xl mx-auto px-4 py-6 md:py-8', [
+        div(classes: 'blog-container', [
           _buildBackButton(),
           _buildArticle(),
         ]),
@@ -36,11 +37,10 @@ class _AppBlogPageContent extends StatelessComponent {
   }
 
   Component _buildBackButton() {
-    return nav(classes: 'mb-6 md:mb-8', [
+    return nav(classes: 'blog-nav', [
       Link(
         to: '/',
-        classes:
-            'inline-flex items-center px-4 py-3 text-blue-600 hover:text-blue-800 focus:text-blue-800 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-colors rounded-lg',
+        classes: 'blog-back-link',
         child: Component.text('← Back to Blog'),
       ),
     ]);
@@ -56,8 +56,8 @@ class _AppBlogPageContent extends StatelessComponent {
     final coverImage = pageData['coverImage'] as String?;
     final canonicalUrl = pageData['canonicalUrl'] as String?;
 
-    return article(classes: 'max-w-2xl mx-auto', [
-      header(classes: 'mb-8 md:mb-12 text-center', [
+    return article(classes: 'blog-article', [
+      header(classes: 'blog-header', [
         if (tags.isNotEmpty) _buildTags(tags),
         _buildTitle(title),
         _buildMeta(),
@@ -70,15 +70,14 @@ class _AppBlogPageContent extends StatelessComponent {
 
   Component _buildTags(List<String> tags) {
     return div(
-      classes: 'flex flex-wrap justify-center gap-2 mb-4 md:mb-6',
+      classes: 'blog-tags',
       [for (final tag in tags) Tag(tag: tag)],
     );
   }
 
   Component _buildTitle(String title) {
     return h1(
-      classes:
-          'text-2xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 md:mb-6 leading-tight',
+      classes: 'blog-title',
       [Component.text(title)],
     );
   }
@@ -107,8 +106,7 @@ class _AppBlogPageContent extends StatelessComponent {
     }
 
     return div(
-      classes:
-          'flex flex-col sm:flex-row sm:items-center sm:justify-center gap-4 md:gap-6 text-gray-600 text-sm md:text-base',
+      classes: 'blog-meta',
       [
         span([Component.text(_formatDate(publishedAt))]),
         span([Component.text('$readTime min read')]),
@@ -118,18 +116,16 @@ class _AppBlogPageContent extends StatelessComponent {
 
   Component _buildCanonicalNotice(String canonicalUrl) {
     return div(
-      classes:
-          'mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-left',
+      classes: 'blog-canonical',
       [
         p(
-          classes: 'text-sm text-yellow-800',
+          classes: 'blog-canonical-text',
           [
             Component.text('Originally published at '),
             a(
               href: canonicalUrl,
               target: Target.blank,
-              classes:
-                  'font-medium underline hover:no-underline focus:ring-2 focus:ring-yellow-500 focus:outline-none',
+              classes: 'blog-canonical-link',
               [Component.text(_getDomain(canonicalUrl))],
             )
           ],
@@ -139,21 +135,21 @@ class _AppBlogPageContent extends StatelessComponent {
   }
 
   Component _buildCoverImage(String coverImage, String title) {
-    return div(classes: 'mb-12', [
+    return div(classes: 'blog-cover-container', [
       img(
         src: coverImage,
         alt: title,
-        classes: 'w-full h-96 object-cover rounded-lg shadow-lg',
+        classes: 'blog-cover',
       ),
     ]);
   }
 
   Component _buildContent(Component contentBody) {
     return div(
-      classes: 'prose prose-lg max-w-none',
+      classes: 'prose prose-lg blog-prose',
       [
         div(
-          classes: 'text-base md:text-lg leading-relaxed text-gray-700',
+          classes: 'blog-content',
           [contentBody],
         ),
       ],
@@ -183,4 +179,155 @@ class _AppBlogPageContent extends StatelessComponent {
     if (uri == null) return url;
     return uri.host.replaceFirst('www.', '');
   }
+
+  // ignore: unused_element
+  @css
+  static List<StyleRule> get styles => [
+        css('.blog-layout').styles(
+          minHeight: 100.vh,
+          backgroundColor: AppColors.surface, // bg-white
+        ),
+        css('.blog-container').styles(
+          maxWidth: Unit.pixels(1280), // max-w-7xl
+          margin: Margin.symmetric(horizontal: Unit.auto),
+          padding: Padding.symmetric(
+              horizontal: 1.rem, vertical: 1.5.rem), // px-4 py-6
+        ),
+        css('.blog-nav').styles(
+          margin: Margin.only(bottom: 1.5.rem), // mb-6
+        ),
+        css('.blog-back-link').styles(
+          display: Display.inlineFlex,
+          alignItems: AlignItems.center,
+          padding: Padding.symmetric(
+              horizontal: 1.rem, vertical: 0.75.rem), // px-4 py-3
+          color: AppColors.primary, // text-blue-600
+          radius: BorderRadius.circular(0.5.rem), // rounded-lg
+          raw: {'outline': 'none', 'transition': 'color 150ms'},
+        ),
+        css('.blog-back-link:hover').styles(
+          color: AppColors.primaryHover, // hover:text-blue-800
+        ),
+        css('.blog-back-link:focus').styles(
+          color: AppColors.primaryHover,
+          raw: {'box-shadow': '0 0 0 2px #fff, 0 0 0 4px #3b82f6'},
+        ),
+        css('.blog-article').styles(
+          maxWidth: 42.rem, // max-w-2xl
+          margin: Margin.symmetric(horizontal: Unit.auto),
+        ),
+        css('.blog-header').styles(
+          margin: Margin.only(bottom: 2.rem), // mb-8
+          textAlign: TextAlign.center,
+        ),
+        css('.blog-tags').styles(
+          display: Display.flex,
+          flexWrap: FlexWrap.wrap,
+          justifyContent: JustifyContent.center,
+          gap: Gap.all(0.5.rem), // gap-2
+          margin: Margin.only(bottom: 1.rem), // mb-4
+        ),
+        css('.blog-title').styles(
+          fontSize: 1.5.rem, // text-2xl
+          fontWeight: FontWeight.bold,
+          color: AppColors.text, // text-gray-900
+          margin: Margin.only(bottom: 1.rem), // mb-4
+          lineHeight: 1.25.em, // leading-tight
+        ),
+        css('.blog-meta').styles(
+          display: Display.flex,
+          flexDirection: FlexDirection.column, // sm:flex-row
+          gap: Gap.all(1.rem), // sm:gap-4
+          color: AppColors.textSecondary, // text-gray-600
+          fontSize: 0.875.rem, // text-sm
+        ),
+        css('.blog-canonical').styles(
+          margin: Margin.only(top: 1.5.rem), // mt-6
+          padding: Padding.all(1.rem), // p-4
+          backgroundColor: AppColors.warningBackground, // bg-yellow-50
+          border: Border.all(
+              color: AppColors.warningBorder, width: 1.px), // border-yellow-200
+          radius: BorderRadius.circular(0.5.rem), // rounded-lg
+          textAlign: TextAlign.left,
+        ),
+        css('.blog-canonical-text').styles(
+          fontSize: 0.875.rem, // text-sm
+          color: AppColors.warningText, // text-yellow-800
+        ),
+        css('.blog-canonical-link').styles(
+          fontWeight: FontWeight.w500, // font-medium
+          raw: {
+            'text-decoration': 'underline',
+            'outline': 'none',
+          },
+        ),
+        css('.blog-canonical-link:hover').styles(
+          raw: {'text-decoration': 'none'},
+        ),
+        css('.blog-canonical-link:focus').styles(
+          raw: {
+            'box-shadow': '0 0 0 2px #fff, 0 0 0 4px #eab308'
+          }, // ring-yellow-500
+        ),
+        css('.blog-cover-container').styles(
+          margin: Margin.only(bottom: 3.rem), // mb-12
+        ),
+        css('.blog-cover').styles(
+          width: 100.percent,
+          height: 24.rem, // h-96
+          radius: BorderRadius.circular(0.5.rem), // rounded-lg
+          raw: {
+            'object-fit': 'cover',
+            'box-shadow':
+                '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)', // shadow-lg
+          },
+        ),
+        css('.blog-prose').styles(
+          raw: {'max-width': 'none'}, // max-w-none
+        ),
+        css('.blog-content').styles(
+          fontSize: 1.rem, // text-base
+          lineHeight: 1.625.em, // leading-relaxed
+          color: AppColors.textBase, // text-gray-700
+        ),
+        // Breakpoints
+        css.media(MediaQuery.screen(minWidth: 640.px), [
+          css('.blog-meta').styles(
+            flexDirection: FlexDirection.row,
+            alignItems: AlignItems.center,
+            justifyContent: JustifyContent.center,
+          ),
+        ]),
+        css.media(MediaQuery.screen(minWidth: 768.px), [
+          css('.blog-container').styles(
+            padding: Padding.symmetric(
+                horizontal: 1.rem, vertical: 2.rem), // md:py-8
+          ),
+          css('.blog-nav').styles(
+            margin: Margin.only(bottom: 2.rem), // md:mb-8
+          ),
+          css('.blog-header').styles(
+            margin: Margin.only(bottom: 3.rem), // md:mb-12
+          ),
+          css('.blog-tags').styles(
+            margin: Margin.only(bottom: 1.5.rem), // md:mb-6
+          ),
+          css('.blog-title').styles(
+            fontSize: 2.25.rem, // md:text-4xl
+            margin: Margin.only(bottom: 1.5.rem), // md:mb-6
+          ),
+          css('.blog-meta').styles(
+            gap: Gap.all(1.5.rem), // md:gap-6
+            fontSize: 1.rem, // md:text-base
+          ),
+          css('.blog-content').styles(
+            fontSize: 1.125.rem, // md:text-lg
+          ),
+        ]),
+        css.media(MediaQuery.screen(minWidth: 1024.px), [
+          css('.blog-title').styles(
+            fontSize: 3.rem, // lg:text-5xl
+          ),
+        ]),
+      ];
 }

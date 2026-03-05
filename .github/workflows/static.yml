@@ -41,14 +41,6 @@ jobs:
         with:
           channel: stable
           version: ${{ steps.flutter-version.outputs.version }}
-      - name: Install Tailwind CSS CLI
-        run: |
-          curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
-          chmod +x tailwindcss-linux-x64
-          mkdir -p $HOME/.local/bin
-          mv tailwindcss-linux-x64 $HOME/.local/bin/tailwindcss
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-          tailwindcss --help
       - name: "Build Jaspr"
         run: |
           flutter pub global activate jaspr_cli

@@ -7,6 +7,7 @@ import 'package:f_blog/models/blog_post.dart';
 import 'package:f_blog/constants/env.dart';
 
 import 'package:f_blog/route_loaders/filtered_filesystem_loader.dart';
+import 'package:f_blog/constants/theme.dart';
 
 class IndexPage extends StatelessComponent {
   const IndexPage({required this.loader, super.key});
@@ -77,8 +78,8 @@ class IndexPage extends StatelessComponent {
     }
     final tags = tagsSet.toList()..sort();
 
-    return div(classes: 'min-h-screen bg-gray-50', [
-      div(classes: 'max-w-7xl mx-auto px-4 py-8 md:py-12', [
+    return div(classes: 'index-container', [
+      div(classes: 'index-content', [
         _buildHeader(),
         if (tags.isNotEmpty) _buildTags(tags),
         _buildPosts(posts),
@@ -88,14 +89,11 @@ class IndexPage extends StatelessComponent {
 
   Component _buildHeader() {
     return header(
-      classes: 'mb-8 md:mb-12 text-center',
+      classes: 'index-header',
       [
-        h1(
-            classes: 'text-2xl md:text-4xl font-bold text-gray-900 mb-4',
-            [Component.text('Blog')]),
+        h1(classes: 'index-title', [Component.text('Blog')]),
         p(
-          classes:
-              'text-base md:text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed',
+          classes: 'index-subtitle',
           [
             Component.text(
                 'Thoughts, ideas, and insights about Flutter development, technology, and life.')
@@ -107,14 +105,14 @@ class IndexPage extends StatelessComponent {
 
   Component _buildTags(List<String> tags) {
     return section(
-      classes: 'mb-6 md:mb-8',
+      classes: 'index-tags-section',
       [
         h2(
-          classes: 'text-base md:text-lg font-semibold text-gray-900 mb-4',
+          classes: 'index-tags-title',
           [Component.text('Topics')],
         ),
         div(
-          classes: 'flex flex-wrap gap-2',
+          classes: 'index-tags-list',
           [for (final tag in tags) Tag(tag: tag, hasHover: true)],
         ),
       ],
@@ -122,8 +120,94 @@ class IndexPage extends StatelessComponent {
   }
 
   Component _buildPosts(List<BlogPost> posts) {
-    return div(classes: 'grid gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3', [
+    return div(classes: 'index-posts-grid', [
       for (final post in posts) BlogPostCard(post: post),
     ]);
   }
+
+  @css
+  static List<StyleRule> get styles => [
+        css('.index-container').styles(
+          minHeight: 100.vh,
+          backgroundColor: AppColors.background,
+        ),
+        css('.index-content').styles(
+          maxWidth: 1280.px, // max-w-7xl
+          margin: Margin.symmetric(horizontal: Unit.auto),
+          padding: Padding.symmetric(horizontal: 1.rem, vertical: 2.rem),
+        ),
+        css('.index-header').styles(
+          margin: Margin.only(bottom: 2.rem),
+          textAlign: TextAlign.center,
+        ),
+        css('.index-title').styles(
+          fontSize: 1.5.rem,
+          fontWeight: FontWeight.bold,
+          color: AppColors.text,
+          margin: Margin.only(bottom: 1.rem), // mb-4
+        ),
+        css('.index-subtitle').styles(
+          fontSize: 1.rem,
+          color: AppColors.textSecondary,
+          maxWidth: 672.px, // max-w-2xl
+          margin: Margin.symmetric(horizontal: Unit.auto),
+          lineHeight: 1.625.em, // leading-relaxed
+        ),
+        css('.index-tags-section').styles(
+          margin: Margin.only(bottom: 1.5.rem),
+        ),
+        css('.index-tags-title').styles(
+          fontSize: 1.rem, // text-base
+          fontWeight: FontWeight.w600, // font-semibold
+          color: AppColors.text,
+          margin: Margin.only(bottom: 1.rem), // mb-4
+        ),
+        css('.index-tags-list').styles(
+          display: Display.flex,
+          flexWrap: FlexWrap.wrap,
+          gap: Gap.all(0.5.rem), // gap-2
+        ),
+        css('.index-posts-grid').styles(
+          display: Display.grid,
+          gap: Gap.all(1.5.rem), // gap-6
+          raw: {
+            'grid-template-columns': 'repeat(1, minmax(0, 1fr))'
+          }, // default 1 col
+        ),
+        // Media queries for breakpoints
+        css.media(MediaQuery.screen(minWidth: 768.px), [
+          css('.index-content').styles(
+            padding: Padding.symmetric(
+                horizontal: 1.rem, vertical: 3.rem), // md:py-12
+          ),
+          css('.index-header').styles(
+            margin: Margin.only(bottom: 3.rem), // md:mb-12
+          ),
+          css('.index-title').styles(
+            fontSize: 2.25.rem, // md:text-4xl
+          ),
+          css('.index-subtitle').styles(
+            fontSize: 1.25.rem, // md:text-xl
+          ),
+          css('.index-tags-section').styles(
+            margin: Margin.only(bottom: 2.rem), // md:mb-8
+          ),
+          css('.index-tags-title').styles(
+            fontSize: 1.125.rem, // md:text-lg
+          ),
+          css('.index-posts-grid').styles(
+            gap: Gap.all(2.rem), // md:gap-8
+            raw: {
+              'grid-template-columns': 'repeat(2, minmax(0, 1fr))'
+            }, // md:grid-cols-2
+          ),
+        ]),
+        css.media(MediaQuery.screen(minWidth: 1024.px), [
+          css('.index-posts-grid').styles(
+            raw: {
+              'grid-template-columns': 'repeat(3, minmax(0, 1fr))'
+            }, // lg:grid-cols-3
+          ),
+        ]),
+      ];
 }
