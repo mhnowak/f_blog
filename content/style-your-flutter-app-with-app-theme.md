@@ -1,8 +1,17 @@
+---
+title: "Style your flutter app with an AppTheme"
+layout: blog
+date: 2021-03-15
+tags: [flutter, design]
+readTime: "2 min"
+canonicalUrl: "https://tech.appunite.com/blog/style-your-flutter-app-with-app-theme"
+coverImage: "https://miro.medium.com/v2/resize:fit:1400/format:webp/1*4-04B9p2IvCy7nkaLvb7HA.jpeg"
+---
 ## What exactly is the AppTheme?
 
 Theme data is a field you can add to your `MaterialApp` to specify default values for the colors, fonts, shapes, etc. You can also access it through `Theme.of(context)`. Material widgets are styled by default by the theme, so it's a great place to put your styling code.
 
-## Great, why doesn't everyone use it?
+## Great, why doesn't everyone use it?
 
 Well, it's huge and it's very easy to get lost here. Especially when you're at the beginning of your project, it's really hard to visualize how specifying different colors, shapes, etc., is going to affect it. I'm not going to go through all of the fields. I'd rather try to give you an idea of how it works and how you could start using it.
 
