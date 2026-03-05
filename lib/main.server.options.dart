@@ -5,8 +5,6 @@
 // Generated with jaspr_builder
 
 import 'package:jaspr/server.dart';
-import 'package:f_blog/pages/blog_page.dart' as _blog_page;
-import 'package:f_blog/pages/blog_post_page.dart' as _blog_post_page;
 import 'package:f_blog/app.dart' as _app;
 
 /// Default [ServerOptions] for use with your Jaspr project.
@@ -25,10 +23,5 @@ import 'package:f_blog/app.dart' as _app;
 ///   runApp(...);
 /// }
 /// ```
-ServerOptions get defaultServerOptions => ServerOptions(
-  styles: () => [
-    ..._blog_page.BlogPage.styles,
-    ..._blog_post_page.BlogPostPage.styles,
-    ..._app.App.styles,
-  ],
-);
+ServerOptions get defaultServerOptions =>
+    ServerOptions(styles: () => [..._app.App.styles]);
